@@ -1,4 +1,5 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import Layout from './layout';
 import {BrowserRouter, Route, Routes} from'react-router-dom';
 import Home from './pages/home/Home';
@@ -10,7 +11,7 @@ function App() {
     <Layout>
       <BrowserRouter>
       <Routes>
-        <Route path="/home" element={<Home/>}/>
+        <Route path="/" element={<Home/>}/>
         <Route path="/tasks" element={<Tasks/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Routes>

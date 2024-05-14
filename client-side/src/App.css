@@ -84,8 +84,8 @@ margin: var(--margin-size);
 }
 
 a{
-  text-decoration: none;
-  color:var(--action-text-color)
+  text-decoration: none !important;
+  color:var(--action-text-color) !important
 }
 
 @media (prefers-reduced-motion: no-preference) {

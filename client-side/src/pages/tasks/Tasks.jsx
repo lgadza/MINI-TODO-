@@ -1,19 +1,39 @@
-import Button from "../../components/button"
 import TaskItem from "../../components/taskItem"
 import "./Tasks.css"
 import TextInput from "../../components/textInput"
+import { useEffect, useState } from "react"
+import { getTasks } from "../../utils/actions"
+import { Spinner } from "react-bootstrap"
 
 const Tasks=()=>{
-    
+    const [tasks,setTasks]=useState([])
+    const [isLoading,setIsLoading]=useState(false)
+
+    const handleFetchTasks=async()=>{
+        setIsLoading(true)
+        try{
+           const response= await getTasks()
+            setTasks(response)
+            setIsLoading(false)
+        }catch(err){
+            console.log(err)
+            setIsLoading(false)
+        }
+    }
+    useEffect(()=>{
+        handleFetchTasks()
+    },[])
     return(
         <div className="tasks">
             <h4 className="header">Tasks Page</h4>
-            <div className="add-task"> 
             <TextInput/>
-            <Button name="ADD TASK" onClick={()=>{console.log("add task")}}/>
-            </div>
-            <TaskItem taskName="Task 1" status={"Completed"} />
-            <TaskItem taskName="Task errfrrerffeeweweewe errfrrerffeeweweewe errfrrerffeeweweewee" status={"Pending"} />
+            {
+                tasks && tasks.length>0 && tasks.map((task,index)=>(
+                    <TaskItem taskName={task.task_name} status={task.status} key={index} />
+                ))
+            }
+            {!tasks && !isLoading && (<h6 className="py-2">No TODO found!</h6>)}
+            {isLoading && (<Spinner animation="border"/>)}
         </div>
     )
 }
