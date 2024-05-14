@@ -1,8 +1,11 @@
+import TaskItem from "../../components/taskItem"
+
 const Tasks=()=>{
+    
     return(
         <div className="tasks">
-            <h1>Tasks Page</h1>
-            <p>This is the tasks page</p>
+            <h4>Tasks Page</h4>
+            <TaskItem/>
         </div>
     )
 }
