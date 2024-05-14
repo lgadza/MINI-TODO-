@@ -26,7 +26,6 @@ export const getTasks = async (searchTerm = "", sortOrder = "newest") => {
         if (searchTerm) {
             url += `&search=${encodeURIComponent(searchTerm)}`;
         }
-        console.log(sortOrder,"GJEUVEUEJEY")
         const response = await fetch(url, {
             method: "GET",
             headers: {
