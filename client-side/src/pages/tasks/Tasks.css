@@ -1,0 +1,14 @@
+
+
+input.text-input{
+    padding: var(--margin-size);
+    border: none;
+    border-radius: 5px;
+    margin: var(--margin-size) 0;
+    width: 75%;
+  }
+  .add-task{
+    display: flex;
+    justify-content: space-between;
+    margin: var(--margin-size);
+  }
