@@ -32,7 +32,7 @@ li{
 /* NAVBAR */
 .navbar{
   display: flex;
-  justify-content: space-between;
+  justify-content:end;
   align-items: center;
   background-color: var(--main-background-color);
   padding: 10px;

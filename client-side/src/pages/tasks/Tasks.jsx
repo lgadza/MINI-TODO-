@@ -10,13 +10,11 @@ const Tasks=()=>{
     const [tasks,setTasks]=useState([])
     const [isLoading,setIsLoading]=useState(false)
      const [sortOrder, setSortOrder] = useState('newest'); 
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-
+console.log(sortOrder)
 
     const handleSearch = async(searchTerm) => {
             try{
-              const response=  await getTasks(searchTerm, sortOrder,startDate,endDate)
+              const response=  await getTasks(searchTerm, sortOrder)
                 setTasks(response)
                 console.log(tasks)
             }catch(err){console.log(err)}
@@ -34,21 +32,17 @@ const Tasks=()=>{
     }
     useEffect(()=>{
         handleFetchTasks()
-    },[])
+    },[sortOrder])
    
     return(
         <div className="tasks">
             <div className="d-flex align-items-center justify-content-between">
             <h4 className="header">Tasks Page</h4>
             <Search onSearch={handleSearch}/>
-            <div>
             <select className="search-input" value={sortOrder} onChange={e => setSortOrder(e.target.value)}>
                 <option value="newest">Newest First</option>
                 <option value="oldest">Oldest First</option>
             </select>
-            <input type="date" value={startDate} className="search-input" onChange={e => setStartDate(e.target.value)} />
-            <input type="date" value={endDate} className="search-input" onChange={e => setEndDate(e.target.value)} />
-            </div>
             </div>
             <TextInput  onTaskAdd={(handleFetchTasks)}/>
             {isLoading && (<Spinner animation="border"/>)}

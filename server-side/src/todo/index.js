@@ -10,15 +10,6 @@ TaskRouter.get('/',(req,res)=>{
         if (search) {
             results = results.filter(task => task.task_name.toLowerCase().includes(search.toLowerCase()));
         }
-           // Filter by date range
-           if (startDate && endDate) {
-            const start = new Date(startDate);
-            const end = new Date(endDate);
-            results = results.filter(task => {
-                const taskDate = new Date(task.created_at);
-                return taskDate >= start && taskDate <= end;
-            });
-        }
 
         // Sort results based on the sort parameter
         if (sort === 'newest') {

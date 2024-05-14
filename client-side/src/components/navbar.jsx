@@ -5,7 +5,6 @@ const Navbar=()=>{
         <div className="navbar">
             <a className="nav-item"  href="/">Home </a>
             <a className="nav-item"  href="tasks">Tasks </a>
-            <a className="nav-item"  href="login">Login </a>
         </div>
     )
 }

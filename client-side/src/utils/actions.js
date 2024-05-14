@@ -20,24 +20,28 @@ export const postNewTask=async(task)=>{
         console.log(err)
     }
 }
-export const getTasks=async(searchItem="")=>{
-    try{
-        let url = `${base_BE_URL}/todo`;
-        if (searchItem) {
-            url += `?search=${encodeURIComponent(searchItem)}`;
+export const getTasks = async (searchTerm = "", sortOrder = "newest") => {
+    try {
+        let url = `${base_BE_URL}/todo?sortOrder=${encodeURIComponent(sortOrder)}`;
+        if (searchTerm) {
+            url += `&search=${encodeURIComponent(searchTerm)}`;
         }
-        
-        const response=await fetch(url,
-        {
-            method:"GET"
+        console.log(sortOrder,"GJEUVEUEJEY")
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
-    )
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
+        return response.json();
+    } catch (err) {
+        console.log(err);
     }
-    return response.json()
-}catch(err){console.log(err)}
-}
+};
+
 export const deleteTask=async(id)=>{
     try{
         const response=await fetch(`${base_BE_URL}/todo/${id}`,{
