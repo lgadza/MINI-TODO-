@@ -3,12 +3,30 @@ import {v4 as uuid} from 'uuid';
 const TaskRouter=express.Router();
 let todoList=[]
 TaskRouter.get('/',(req,res)=>{
-    const { search } = req.query; 
+    const { search, sort, startDate, endDate } = req.query; 
     try{
         let results = todoList;
+         // Filter by task name
         if (search) {
             results = results.filter(task => task.task_name.toLowerCase().includes(search.toLowerCase()));
         }
+           // Filter by date range
+           if (startDate && endDate) {
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            results = results.filter(task => {
+                const taskDate = new Date(task.created_at);
+                return taskDate >= start && taskDate <= end;
+            });
+        }
+
+        // Sort results based on the sort parameter
+        if (sort === 'newest') {
+            results.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        } else if (sort === 'oldest') {
+            results.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+        }
+
         res.send(results)
     }catch(err){
         console.log(err)
@@ -31,6 +49,7 @@ TaskRouter.get('/:id',(req,res)=>{
 TaskRouter.post('/',(req,res)=>{
     const newTask=req.body
     newTask.id=uuid()
+    newTask.created_at = new Date(); 
     console.log(newTask)
     try{
         todoList.push(newTask)
