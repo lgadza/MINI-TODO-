@@ -22,7 +22,7 @@ export const postNewTask=async(task)=>{
 }
 export const getTasks = async (searchTerm = "", sortOrder = "newest") => {
     try {
-        let url = `${base_BE_URL}/todo?sortOrder=${encodeURIComponent(sortOrder)}`;
+        let url = `${base_BE_URL}/todo?sort=${encodeURIComponent(sortOrder)}`;
         if (searchTerm) {
             url += `&search=${encodeURIComponent(searchTerm)}`;
         }
