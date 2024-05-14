@@ -23,9 +23,11 @@ const Tasks=()=>{
         try{
            const response= await getTasks("",sortOrder)
             setTasks(response)
+            setTasks(response || []); 
             setIsLoading(false)
         }catch(err){
             console.log(err)
+            setTasks([]); 
             setIsLoading(false)
         }
     }
@@ -46,10 +48,10 @@ const Tasks=()=>{
             <TextInput  onTaskAdd={(handleFetchTasks)}/>
             {isLoading && (<Spinner animation="border"/>)}
             {
-                tasks && tasks.length>0  && tasks.map((task,)=>(
+                tasks && tasks?.length>0  && tasks.map((task,)=>(
                     <TaskItem 
                     task={task} 
-                    key={task.id} 
+                    key={task?.id} 
                     onTaskListChange={(handleFetchTasks)}/>
                 ))
             }
