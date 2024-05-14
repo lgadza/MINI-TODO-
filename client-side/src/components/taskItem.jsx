@@ -1,9 +1,15 @@
+import { deleteTask, getTasks } from "../utils/actions"
 import Button from "./button"
 
-const TaskItem=({taskName, status})=>{
-    const handleDelete=()=>{
+const TaskItem=({taskName, status, id})=>{
+    const handleDelete=async()=>{
         console.log("delete")
-    }
+        try{
+            await deleteTask(id)
+            getTasks()
+        }catch(err){
+            console.log(err)
+        }    }
     return(
         <div className="task-item-container">
             <input type="checkbox" className="task-checkbox" />

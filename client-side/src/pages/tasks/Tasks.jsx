@@ -29,7 +29,7 @@ const Tasks=()=>{
             <TextInput/>
             {
                 tasks && tasks.length>0 && tasks.map((task,index)=>(
-                    <TaskItem taskName={task.task_name} status={task.status} key={index} />
+                    <TaskItem taskName={task.task_name} status={task.status} key={index} id={task.id} />
                 ))
             }
             {!tasks && !isLoading && (<h6 className="py-2">No TODO found!</h6>)}

@@ -15,7 +15,7 @@ TaskRouter.get('/:id',(req,res)=>{
     try{
         const task=todoList.find(task=>task.id===id)
         if(!task){
-            res.status(404).send(`Task with id ${req.params.id} not found`)
+            res.status(404).send(`Task with id ${id} not found`)
         }
         res.send(task)
     }catch(err){
@@ -40,10 +40,24 @@ TaskRouter.put('/:id',(req,res)=>{
     try{
       const foundTask=  todoList.filter(task=>task.id===id)
       if(!foundTask){
-        res.status(400).send(`Task with id ${req.params.id} not found`)
+        res.status(400).send(`Task with id ${id} not found`)
       }
       const updatedTask={...foundTask,...req.body}
       res.status(300).send(updatedTask)
+    }catch(err){
+        console.log(err)
+        res.status(err.status || 500).send(err.message)
+    }
+})
+TaskRouter.delete('/:id',(req,res)=>{
+    const id=req.params.id
+    try{
+        const task=todoList.find(task=>task.id===id)
+        if(!task){
+            res.status(404).send(`Task with id ${id} not found`)
+        }
+        todoList.splice(todoList.indexOf(task),1)
+        res.send(todoList)
     }catch(err){
         console.log(err)
         res.status(err.status || 500).send(err.message)
