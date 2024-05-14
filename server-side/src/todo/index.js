@@ -3,15 +3,13 @@ import {v4 as uuid} from 'uuid';
 const TaskRouter=express.Router();
 let todoList=[]
 TaskRouter.get('/',(req,res)=>{
-    const { search, sort, startDate, endDate } = req.query; 
+    const { search, sort} = req.query; 
     try{
         let results = todoList;
-         // Filter by task name
         if (search) {
             results = results.filter(task => task.task_name.toLowerCase().includes(search.toLowerCase()));
         }
 
-        // Sort results based on the sort parameter
         if (sort === 'newest') {
             results.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         } else if (sort === 'oldest') {
