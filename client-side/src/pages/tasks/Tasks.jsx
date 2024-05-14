@@ -10,7 +10,6 @@ const Tasks=()=>{
     const [tasks,setTasks]=useState([])
     const [isLoading,setIsLoading]=useState(false)
      const [sortOrder, setSortOrder] = useState('newest'); 
-console.log(sortOrder)
 
     const handleSearch = async(searchTerm) => {
             try{
@@ -22,7 +21,7 @@ console.log(sortOrder)
     const handleFetchTasks=async()=>{
         setIsLoading(true)
         try{
-           const response= await getTasks()
+           const response= await getTasks("",sortOrder)
             setTasks(response)
             setIsLoading(false)
         }catch(err){
