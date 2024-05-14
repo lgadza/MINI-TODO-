@@ -3,8 +3,13 @@ import {v4 as uuid} from 'uuid';
 const TaskRouter=express.Router();
 let todoList=[]
 TaskRouter.get('/',(req,res)=>{
+    const { search } = req.query; 
     try{
-        res.send(todoList)
+        let results = todoList;
+        if (search) {
+            results = results.filter(task => task.task_name.toLowerCase().includes(search.toLowerCase()));
+        }
+        res.send(results)
     }catch(err){
         console.log(err)
         res.status(err.status || 500).send(err.message)
@@ -37,13 +42,13 @@ TaskRouter.post('/',(req,res)=>{
 });
 TaskRouter.put('/:id',(req,res)=>{
     const id=req.params.id
+    const foundIndex=  todoList.findIndex(task=>task.id===id)
+    if(foundIndex===-1){
+      res.status(400).send(`Task with id ${id} not found`)
+    }
     try{
-      const foundTask=  todoList.filter(task=>task.id===id)
-      if(!foundTask){
-        res.status(400).send(`Task with id ${id} not found`)
-      }
-      const updatedTask={...foundTask,...req.body}
-      res.status(300).send(updatedTask)
+      todoList[foundIndex]={...todoList[foundIndex], ...req.body}
+      res.status(200).send(todoList[foundIndex])
     }catch(err){
         console.log(err)
         res.status(err.status || 500).send(err.message)

@@ -82,6 +82,17 @@ margin: var(--margin-size);
   border-radius: 5px;
   padding: var(--margin-size);
 }
+/* SEARCH  */
+.search-container {
+  padding: 10px;
+  margin: 10px;
+}
+
+.search-input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 
 a{
   text-decoration: none !important;

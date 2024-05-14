@@ -1,8 +1,10 @@
 const Home=()=>{
     return(
         <div className="home">
-            <h1>Home Page</h1>
-            <p>This is the home page</p>
+            <h4 className="header">Home</h4>
+            <div className="d-flex">
+<div></div>
+            </div>
         </div>
     )
 }

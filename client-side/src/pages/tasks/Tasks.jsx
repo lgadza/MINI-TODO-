@@ -4,16 +4,25 @@ import TextInput from "../../components/textInput"
 import { useEffect, useState } from "react"
 import { getTasks } from "../../utils/actions"
 import { Spinner } from "react-bootstrap"
+import Search from "../../components/search"
 
 const Tasks=()=>{
     const [tasks,setTasks]=useState([])
     const [isLoading,setIsLoading]=useState(false)
 
+
+    const handleSearch = async(searchTerm) => {
+            try{
+              const response=  await getTasks(searchTerm)
+                setTasks(response)
+                console.log(tasks)
+            }catch(err){console.log(err)}
+    };
     const handleFetchTasks=async()=>{
         setIsLoading(true)
         try{
            const response= await getTasks()
-            setTasks(response)
+            setTasks(response.reverse())
             setIsLoading(false)
         }catch(err){
             console.log(err)
@@ -23,17 +32,24 @@ const Tasks=()=>{
     useEffect(()=>{
         handleFetchTasks()
     },[])
+   
     return(
         <div className="tasks">
+            <div className="d-flex align-items-center justify-content-between">
             <h4 className="header">Tasks Page</h4>
-            <TextInput/>
+            <Search onSearch={handleSearch}/>
+            </div>
+            <TextInput  onTaskAdd={(handleFetchTasks)}/>
+            {isLoading && (<Spinner animation="border"/>)}
             {
-                tasks && tasks.length>0 && tasks.map((task,index)=>(
-                    <TaskItem taskName={task.task_name} status={task.status} key={index} id={task.id} />
+                tasks && tasks.length>0  && tasks.map((task,)=>(
+                    <TaskItem 
+                    task={task} 
+                    key={task.id} 
+                    onTaskListChange={(handleFetchTasks)}/>
                 ))
             }
-            {!tasks && !isLoading && (<h6 className="py-2">No TODO found!</h6>)}
-            {isLoading && (<Spinner animation="border"/>)}
+            {tasks.length===0 && !isLoading && (<h6 className="py-2">No TODO found!</h6>)}
         </div>
     )
 }

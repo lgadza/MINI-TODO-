@@ -2,7 +2,7 @@ import { useState } from "react"
 import Button from "./button"
 import { postNewTask } from "../utils/actions"
 
-const TextInput=()=>{
+const TextInput=({onTaskAdd})=>{
     const [task,setTask]=useState("")
     const [isLoading,setIsLoading]=useState(false)
     const handleAddTask=async()=>{
@@ -11,12 +11,12 @@ const TextInput=()=>{
             task_name:task,
             status:"Pending"
         })
+        onTaskAdd()
         setTask("")
         setIsLoading(false)
         console.log("add task")
         
     }
-    console.log(task)
     return (
         <div className="add-task">
         <input 
