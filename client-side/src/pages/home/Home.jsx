@@ -1,46 +1,67 @@
 import { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
-import TaskItem from "../../components/taskItem";
 import { getTasks } from "../../utils/actions";
 
-const Home=()=>{
-    const [tasks,setTasks]=useState([])
-    const [isLoading,setIsLoading]=useState(false)
+const Home = () => {
+    const [tasks, setTasks] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleFetchTasks=async()=>{
-        setIsLoading(true)
-        try{
-           const response= await getTasks()
-            setTasks(response)
-            setIsLoading(false)
-        }catch(err){
-            console.log(err)
-            setIsLoading(false)
+    const handleFetchTasks = async () => {
+        setIsLoading(true);
+        try {
+            const response = await getTasks();
+            setTasks(response || []);
+            setIsLoading(false);
+        
+        } catch (err) {
+            console.error(err);
+            setIsLoading(false);
+            setTasks([]);
         }
-    }
-    useEffect(()=>{
-        handleFetchTasks()
-    },[])
-   
-    
-  
-        return(
-            <div className="home">
-                <div className="d-flex align-items-center justify-content-between">
-                <h4 className="header">Home Page</h4>
-                </div>
-                {isLoading && (<Spinner animation="border"/>)}
-                {
-                    tasks && tasks.length>0  && tasks.map((task,)=>(
-                        <TaskItem 
-                        task={task} 
-                        key={task.id} 
-                        onTaskListChange={(handleFetchTasks)}/>
-                    ))
-                }
-                {tasks.length===0 && !isLoading && (<h6 className="py-2">No TODO found!</h6>)}
-            </div>
-    )
-}
-export default Home
+    };
 
+    useEffect(() => {
+        handleFetchTasks();
+    }, []);
+    
+    const completedTasks = tasks.filter(task => task.status === "Completed");
+    const pendingTasks = tasks.filter(task => task.status === "Pending");
+
+    return (
+        <div className="home">
+            <h4 className="header">Home Page</h4>
+            {isLoading ? (
+                <Spinner animation="border" />
+            ) : (
+                <div className="d-flex mt-4 justify-content-between">
+                    <div className="col">
+                        <h5 className="d-flex ms-4">Completed Tasks</h5>
+                        {completedTasks.length > 0 ? (
+                            completedTasks.map(task => (
+                             <li key={task.id} className="text-white ms-4 task-item p-2 mx-2 bg-success">
+                                {task.task_name}
+                             </li>
+                            ))
+                        ) : (
+                            <p>No completed tasks.</p>
+                        )}
+                    </div>
+                    <div className="col mx-3">
+                        <h5 className="d-flex ms-4">Pending Tasks</h5>
+                        {pendingTasks.length > 0 ? (
+                            pendingTasks.map(task => (
+                                <li  key={task.id} className=" my-2 text-white p-2 bg-danger task-item">
+                                {task.task_name}
+                             </li>
+                            ))
+                        ) : (
+                            <p>No pending tasks.</p>
+                        )}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default Home;
